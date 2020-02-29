@@ -39,9 +39,11 @@ class App extends Component {
     this.setState({ movies, genres });
   }
 
-  async componentDidUpdate() {
-    const { data: movies } = await getMovies();
-    this.setState({ movies });
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevState.data !== this.state.data) {
+      const { data: movies } = await getMovies();
+      this.setState({ movies });
+    }
   }
   handleDelete = async movie => {
     const originalMovies = this.state.movies;
